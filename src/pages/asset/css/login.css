@@ -1,0 +1,101 @@
+/* login.css */
+.login-body {
+  background-color: white;
+}
+
+/* Đặt font chữ mặc định */
+.bg-light {
+  font-family: "Lato", sans-serif; /* Màu nền sáng */
+  color: #000000 !important; /* Màu chữ mặc định */
+}
+
+/* Đặt kiểu dáng cho phần tử .ftco-section */
+.ftco-section {
+  padding: 4em 0;
+}
+
+/* Đặt kiểu dáng cho phần tử .login-wrap */
+.login-wrap {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Căn giữa theo chiều ngang */
+}
+
+/* Đặt kiểu dáng cho phần tử .img */
+.img {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* Đặt kiểu dáng cho phần tử h3 */
+.title-form {
+  font-weight: 700;
+  color: #000000;
+}
+
+/* Đặt kiểu dáng cho phần tử p */
+p {
+  color: #000000;
+}
+
+/* Đặt kiểu dáng cho phần tử .form-group */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5em;
+}
+
+/* Đặt kiểu dáng cho phần tử .icon */
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #000000;
+}
+
+/* Đặt kiểu dáng cho phần tử .form-control */
+.form-control {
+  padding-left: 30px !important;
+  border: 1px solid #ddd !important;
+  background-color: #f8f9fa !important;
+  color: #000000 !important;
+  height: 45px;
+  box-shadow: none;
+  font-size: 16px; /* Điều chỉnh kích thước chữ */
+}
+
+/* Đặt kiểu dáng cho phần tử .btn */
+.btn-login {
+  border-radius: 30px;
+  height: 45px;
+  background-color: #ffb900 !important;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #fff;
+}
+
+/* Đặt kiểu dáng cho phần tử .btn-link */
+.btn-link {
+  color: #ffb900;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
