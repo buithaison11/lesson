@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import CoursesAdd from "./components/courses/CoursesAdd/CoursesAdd";
 import CoursesEdit from "./components/courses/CoursesEdit/CoursesEdit";
 import InstructorsList from "./components/Instructors/InstructorsList/InstructorsList";
+import InstructorAdd from "./components/Instructors/InstructorsAdd/InstructorsAdd";
+import InstructorEdit from "./components/Instructors/InstructorsEdit/InstructorsEdit";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route path="courses/create" element={<CoursesAdd />} />
           <Route path="courses/edit/:id" element={<CoursesEdit />} />
           <Route path="instructors" element={<InstructorsList />} />
+          <Route path="instructors/create" element={<InstructorAdd />} />
+          <Route path="instructors/edit/:id" element={<InstructorEdit />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>
