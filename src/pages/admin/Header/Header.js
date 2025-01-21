@@ -6,13 +6,13 @@ function Header() {
       <link
         rel="canonical"
         href="https://getbootstrap.com/docs/5.3/examples/dashboard/"
-      />{" "}
+      />
       <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
-      />{" "}
-      <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"></link>
-      <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      />
+      {/* <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"></link> */}
+      <svg xmlns="http://www.w3.org/2000/svg" className="d-none">
         <symbol id="check2" viewBox="0 0 16 16">
           <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
         </symbol>
@@ -27,7 +27,7 @@ function Header() {
           <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
         </symbol>
       </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <svg xmlns="http://www.w3.org/2000/svg" className="d-none">
         <symbol id="calendar3" viewBox="0 0 16 16">
           <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
           <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
@@ -89,17 +89,14 @@ function Header() {
         className="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
         data-bs-theme="dark"
       >
-        {" "}
         <a
           className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
           href="#"
         >
-          Company name
-        </a>{" "}
+          QUẢN LÝ LESSON
+        </a>
         <ul className="navbar-nav flex-row d-md-none">
-          {" "}
           <li className="nav-item text-nowrap">
-            {" "}
             <button
               className="nav-link px-3 text-white"
               type="button"
@@ -109,15 +106,12 @@ function Header() {
               aria-expanded="false"
               aria-label="Toggle search"
             >
-              {" "}
               <svg className="bi">
-                {" "}
-                <use xlinkHref="#search" />{" "}
-              </svg>{" "}
-            </button>{" "}
-          </li>{" "}
+                <use xlinkHref="#search" />
+              </svg>
+            </button>
+          </li>
           <li className="nav-item text-nowrap">
-            {" "}
             <button
               className="nav-link px-3 text-white"
               type="button"
@@ -127,23 +121,20 @@ function Header() {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              {" "}
               <svg className="bi">
-                {" "}
-                <use xlinkHref="#list" />{" "}
-              </svg>{" "}
-            </button>{" "}
-          </li>{" "}
-        </ul>{" "}
+                <use xlinkHref="#list" />
+              </svg>
+            </button>
+          </li>
+        </ul>
         <div id="navbarSearch" className="navbar-search w-100 collapse">
-          {" "}
           <input
             className="form-control w-100 rounded-0 border-0"
             type="text"
             placeholder="Search"
             aria-label="Search"
-          />{" "}
-        </div>{" "}
+          />
+        </div>
       </header>
     </>
   );

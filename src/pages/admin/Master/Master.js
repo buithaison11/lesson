@@ -1,41 +1,41 @@
 import { Outlet } from "react-router";
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { login } from "../../../redux/features/authSlice";
 import Header from "../Header/Header";
-import MainAdmin from "../MainAdmin/MainAdmin";
 import "../../asset/css/admin.css";
-import "../../asset/css/bootstrap.min.css";
 import "../../asset/js/color-modes.js";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Container, Row, Col } from "react-bootstrap";
-
-// import SideBar from "../SideBar/SideBar.js";
+import { Container, Row } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import Theme from "../Theme/Theme.js";
+import SideBar from "../SideBar/SideBar.js";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 function Master() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
-    const userLogin = localStorage.getItem("user");
+    const userLogin = JSON.parse(localStorage.getItem("user"));
     if (userLogin) {
-      dispatch(login(JSON.parse(userLogin)));
+      dispatch(login(userLogin));
+    } else {
+      navigate("/login");
     }
-  }, [dispatch]);
-
+  }, [dispatch, navigate]);
   return (
     <>
-      <Header />
-      <MainAdmin />
-      {/* <Container>
+      <Theme />
+      <Container fluid>
         <Row>
-          <Col></Col>
+          <Header />
+          <SideBar />
+          <Outlet />
         </Row>
-      </Container> */}
-      <Outlet />
+      </Container>
     </>
   );
 }
-
 export default Master;
