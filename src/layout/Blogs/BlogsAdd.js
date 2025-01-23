@@ -38,6 +38,8 @@ function BlogAdd() {
         toast.error("Vui lòng chọn học sinh!");
         return;
       }
+      // Chuyển đổi studentId từ chuỗi sang số
+      values.studentId = parseInt(values.studentId, 10);
       BlogsService.addBlog(values)
         .then((res) => {
           toast.success("Thêm blog thành công!");
