@@ -10,12 +10,18 @@ import CoursesEdit from "./components/courses/CoursesEdit/CoursesEdit";
 import InstructorsList from "./components/Instructors/InstructorsList/InstructorsList";
 import InstructorAdd from "./components/Instructors/InstructorsAdd/InstructorsAdd";
 import InstructorEdit from "./components/Instructors/InstructorsEdit/InstructorsEdit";
+import SupportUser from "./layout/SupportUser/SupportUser";
+import Blogs from "./layout/Blogs/Blogs";
+import BlogAdd from "./layout/Blogs/BlogsAdd";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/home/support" element={<SupportUser />} />
+        <Route path="/home/blogs" element={<Blogs />} />
+        <Route path="/home/blogs/create" element={<BlogAdd />} />
         <Route path="/admin" element={<Master />}>
           <Route path="courses" element={<CoursesList />} />
           <Route path="courses/create" element={<CoursesAdd />} />
