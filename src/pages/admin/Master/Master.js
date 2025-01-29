@@ -27,14 +27,16 @@ function Master() {
   }, [dispatch, navigate]);
   return (
     <>
-      <Theme />
-      <Container fluid>
-        <Row>
-          <Header />
-          <SideBar />
-          <Outlet />
-        </Row>
-      </Container>
+      <div className="main">
+        <Theme />
+        <Container fluid>
+          <Row>
+            <Header />
+            <SideBar />
+            <Outlet />
+          </Row>
+        </Container>
+      </div>
     </>
   );
 }

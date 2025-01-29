@@ -13,22 +13,52 @@ import InstructorEdit from "./components/Instructors/InstructorsEdit/Instructors
 import SupportUser from "./layout/SupportUser/SupportUser";
 import Blogs from "./layout/Blogs/Blogs";
 import BlogAdd from "./layout/Blogs/BlogsAdd";
+import StudentList from "./components/students/studentList/studentList";
+import StudentAdd from "./components/students/studentAdd/StudentAdd";
+import StudentEdit from "./components/students/studentEdit/StudentEdit";
+import StudentsByCourse from "./components/courses/CoursesList/StudentsByCourse";
+import ReviewList from "./components/reviews/reviewList/ReviewList";
+import ReviewByCourses from "./components/reviews/reviewCourses/reviewCourses";
+import BlogList from "./components/Blogs/blogList/blogLitst";
+import SupportList from "./components/support/supportList/SupportList";
+import NotificationsList from "./components/notifications/notificationsList/NotificationsList";
+import TransactionsList from "./components/transactions/TransactionsList/TransactionsList";
+import RevenueStatistics from "./components/transactions/RevenueStatistics/RevenueStatistics";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/login" element={<Login />} />
         <Route path="/home/support" element={<SupportUser />} />
         <Route path="/home/blogs" element={<Blogs />} />
         <Route path="/home/blogs/create" element={<BlogAdd />} />
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+        {/* Admin */}
         <Route path="/admin" element={<Master />}>
           <Route path="courses" element={<CoursesList />} />
           <Route path="courses/create" element={<CoursesAdd />} />
           <Route path="courses/edit/:id" element={<CoursesEdit />} />
+          <Route
+            path="courses/:courseId/students"
+            element={<StudentsByCourse />}
+          />
+          <Route
+            path="courses/:courseId/reviews"
+            element={<ReviewByCourses />}
+          />
           <Route path="instructors" element={<InstructorsList />} />
           <Route path="instructors/create" element={<InstructorAdd />} />
           <Route path="instructors/edit/:id" element={<InstructorEdit />} />
+          <Route path="students" element={<StudentList />} />
+          <Route path="students/create" element={<StudentAdd />} />
+          <Route path="students/edit/:id" element={<StudentEdit />} />
+          <Route path="reviews" element={<ReviewList />} />
+          <Route path="blogs" element={<BlogList />} />
+          <Route path="supports" element={<SupportList />} />
+          <Route path="notifications" element={<NotificationsList />} />
+          <Route path="transactions" element={<TransactionsList />} />
+          <Route path="revenues" element={<RevenueStatistics />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

@@ -5,6 +5,10 @@ class CoursesService {
     return await instance.get("/courses?_expand=instructor");
   }
 
+  static async getAllStudents() {
+    return await instance.get("/students?_expand=course");
+  }
+
   static async getAllInstructors() {
     return await instance.get("/instructors");
   }

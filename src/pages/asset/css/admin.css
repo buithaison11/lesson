@@ -12,6 +12,10 @@
   }
 }
 
+.main {
+  background-color: #fffcf4 !important;
+}
+
 .b-example-divider {
   width: 100%;
   height: 3rem;

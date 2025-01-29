@@ -4,10 +4,10 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+
 function CoursesList() {
   const [courses, setCourses] = useState([]);
   const [reload, setReload] = useState(true);
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     CoursesService.getAllCourses()
@@ -36,27 +36,29 @@ function CoursesList() {
   return (
     <>
       <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 className="h2">Khóa học</h1>
+        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
+          <h1 className="h2">Danh sách khóa học</h1>
           <div className="btn-toolbar mb-2 mb-md-0">
-            <div className="btn-group me-2"></div>
+            <div className="btn-group me-2">
+              <Link to={"/admin/courses/create"}>
+                <Button variant="outline-primary">
+                  <i className="bi bi-plus-lg"></i> Thêm khóa học
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
-        <h2>Danh sách khóa học</h2>
-        <Link to={"/admin/courses/create"}>
-          <Button variant="outline-primary">Create Courses</Button>
-        </Link>
-        <Table striped="columns">
+
+        <Table striped bordered hover size="sm">
           <thead>
-            <tr>
+            <tr className="text-center">
               <th>#</th>
               <th>Tên khóa học</th>
               <th>Giá</th>
               <th>Tên giảng viên</th>
-              <th>Thời lượng</th>
+              <th>Thời gian</th>
               <th>Mô tả</th>
               <th>Hình ảnh</th>
-
               <th>Chức năng</th>
             </tr>
           </thead>
@@ -64,31 +66,46 @@ function CoursesList() {
             {courses.length > 0 &&
               courses.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.id}</td>
+                  <td>{index + 1}</td>
                   <td>{item.courseName}</td>
-                  <td>{item.price} VNĐ</td>
-
+                  <td className="text-center">{item.price} VNĐ</td>
                   <td>{item.instructor.instructorName}</td>
                   <td>{item.duration} giờ</td>
-                  <td>{item.description} </td>
+                  <td>{item.description}</td>
                   <td>
                     <img
                       width={100}
                       height={100}
                       src={item.image}
                       alt={item.courseName}
+                      className="img-fluid"
                     />
                   </td>
                   <td>
-                    <Link to={`/admin/courses/edit/${item.id}`}>
-                      <Button variant="outline-primary">Chỉnh sửa</Button>
-                    </Link>
-                    <Button
-                      onClick={() => handleDeleteCourse(item.id)}
-                      variant="outline-danger"
-                    >
-                      Xóa
-                    </Button>
+                    <div className="d-flex justify-content-center align-items-center">
+                      <Link to={`/admin/courses/${item.id}/students`}>
+                        <Button variant="outline-primary" className="no-border">
+                          <i className="bi bi-person-lines-fill"></i>
+                        </Button>
+                      </Link>
+                      <Link to={`/admin/courses/${item.id}/reviews`}>
+                        <Button variant="outline-primary" className="no-border">
+                          <i class="bi bi-eye-fill"></i>
+                        </Button>
+                      </Link>
+                      <Link to={`/admin/courses/edit/${item.id}`}>
+                        <Button variant="outline-primary" className="no-border">
+                          <i className="bi bi-pencil-square"></i>
+                        </Button>
+                      </Link>
+                      <Button
+                        onClick={() => handleDeleteCourse(item.id)}
+                        variant="outline-danger"
+                        className="no-border"
+                      >
+                        <i className="bi bi-trash-fill"></i>
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -65,9 +65,8 @@ function CoursesAdd() {
   return (
     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Khóa học</h1>
+        <h1 className="h2">Thêm khóa học</h1>
       </div>
-      <h2>Thêm khóa học</h2>
       <Col md={12}>
         <Form onSubmit={formAdd.handleSubmit}>
           <Form.Group className="mb-3" controlId="formCourseName">
@@ -130,11 +129,11 @@ function CoursesAdd() {
               ))}
             </Form.Select>
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
+          <Button variant="primary" type="submit" className="me-2">
+            <i className="bi bi-plus-lg"></i> Thêm
           </Button>
           <Link to={"/admin/courses"}>
-            <Button variant="secondary">Cancel</Button>
+            <Button variant="secondary">Trở về</Button>
           </Link>
         </Form>
       </Col>
