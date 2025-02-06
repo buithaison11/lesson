@@ -22,8 +22,12 @@ import ReviewByCourses from "./components/reviews/reviewCourses/reviewCourses";
 import BlogList from "./components/Blogs/blogList/blogLitst";
 import SupportList from "./components/support/supportList/SupportList";
 import NotificationsList from "./components/notifications/notificationsList/NotificationsList";
+import NotificationsAdd from "./components/notifications/notificationAdd/NotificationsAdd";
+import NotificationsEdit from "./components/notifications/notificationEdit/NotificationsEdit";
 import TransactionsList from "./components/transactions/TransactionsList/TransactionsList";
+import TransactionsAdd from "./components/transactions/TransactionsAdd/TransactionsAdd";
 import RevenueStatistics from "./components/transactions/RevenueStatistics/RevenueStatistics";
+import SupportEdit from "./components/support/supportEdit/SupportEdit";
 
 function App() {
   return (
@@ -57,8 +61,15 @@ function App() {
           <Route path="blogs" element={<BlogList />} />
           <Route path="supports" element={<SupportList />} />
           <Route path="notifications" element={<NotificationsList />} />
+          <Route path="notifications/create" element={<NotificationsAdd />} />
+          <Route
+            path="notifications/edit/:id"
+            element={<NotificationsEdit />}
+          />
           <Route path="transactions" element={<TransactionsList />} />
+          <Route path="transactions/create" element={<TransactionsAdd />} />
           <Route path="revenues" element={<RevenueStatistics />} />
+          <Route path="supports/edit/:id" element={<SupportEdit />} />
         </Route>
         <Route path="*" element={<Error />} />
       </Routes>

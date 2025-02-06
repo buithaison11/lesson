@@ -4,20 +4,24 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function CoursesList() {
   const [courses, setCourses] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     CoursesService.getAllCourses()
       .then((res) => {
         setCourses(res.data);
+        setTotalItems(res.data.length);
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);
       });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteCourse = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -25,12 +29,28 @@ function CoursesList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setCourses(courses.filter((course) => course.id !== id));
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
     }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedCourses = courses.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const formatCurrency = (number) => {
+    return number.toLocaleString("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    });
   };
 
   return (
@@ -63,14 +83,14 @@ function CoursesList() {
             </tr>
           </thead>
           <tbody>
-            {courses.length > 0 &&
-              courses.map((item, index) => (
+            {displayedCourses.length > 0 &&
+              displayedCourses.map((item, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{item.courseName}</td>
-                  <td className="text-center">{item.price} VNĐ</td>
+                  <td className="text-center">{formatCurrency(item.price)}</td>
                   <td>{item.instructor.instructorName}</td>
-                  <td>{item.duration} giờ</td>
+                  <td className="text-center">{item.duration} giờ</td>
                   <td>{item.description}</td>
                   <td>
                     <img
@@ -111,6 +131,13 @@ function CoursesList() {
               ))}
           </tbody>
         </Table>
+
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

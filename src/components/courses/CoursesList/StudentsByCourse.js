@@ -4,21 +4,25 @@ import { Table, Button } from "react-bootstrap";
 import StudentsService from "../../../services/students.service";
 import CoursesService from "../../../services/courses.service";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
+
 function StudentsByCourse() {
   const [students, setStudents] = useState([]);
-  const [course, setCourse] = useState();
+  const [course, setCourse] = useState(null);
   const { courseId } = useParams();
-
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     StudentsService.getStudentsByCourseId(courseId).then((res) => {
       setStudents(res.data);
+      setTotalItems(res.data.length);
     });
     CoursesService.getCoursesById(courseId).then((res) => {
       setCourse(res.data);
     });
-  }, [courseId, reload]);
+  }, [courseId]);
 
   const handleDeleteStudent = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -26,13 +30,23 @@ function StudentsByCourse() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setStudents(students.filter((student) => student.id !== id));
+          setTotalItems(totalItems - 1);
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
     }
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedStudents = students.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -44,7 +58,7 @@ function StudentsByCourse() {
           <div className="btn-group me-2">
             <Link to={"/admin/students/create"}>
               <Button variant="outline-primary">
-                <i class="bi bi-plus-lg"></i> Thêm học viên mới
+                <i className="bi bi-plus-lg"></i> Thêm học viên mới
               </Button>
             </Link>
           </div>
@@ -61,10 +75,10 @@ function StudentsByCourse() {
           </tr>
         </thead>
         <tbody>
-          {students.length > 0 &&
-            students.map((student, index) => (
+          {displayedStudents.length > 0 &&
+            displayedStudents.map((student, index) => (
               <tr key={index} className="text-center">
-                <td>{index + 1}</td>
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                 <td>{student.studentName}</td>
                 <td>{student.email}</td>
                 <td>{student.enrollmentDate}</td>
@@ -88,6 +102,13 @@ function StudentsByCourse() {
             ))}
         </tbody>
       </Table>
+      <PaginationComponent
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
+
       <Link to="/admin/students">
         <Button variant="primary" className="me-2">
           Danh sách học viên

@@ -4,20 +4,24 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function StudentList() {
   const [students, setStudents] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     StudentsService.getAllStudents()
       .then((res) => {
         setStudents(res.data);
+        setTotalItems(res.data.length);
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);
       });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteStudent = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -25,13 +29,22 @@ function StudentList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setStudents(students.filter((students) => students.id !== id));
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
     }
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedCourses = students.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
@@ -61,10 +74,10 @@ function StudentList() {
             </tr>
           </thead>
           <tbody>
-            {students.length > 0 &&
-              students.map((item, index) => (
+            {displayedCourses.length > 0 &&
+              displayedCourses.map((item, index) => (
                 <tr key={index} className="text-center">
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{item.studentName}</td>
                   <td>{item.email} </td>
                   <td>{item.course.courseName}</td>
@@ -89,6 +102,13 @@ function StudentList() {
               ))}
           </tbody>
         </Table>
+
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

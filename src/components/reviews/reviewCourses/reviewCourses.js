@@ -4,20 +4,34 @@ import { Table, Button } from "react-bootstrap";
 import CoursesService from "../../../services/courses.service";
 import ReviewsService from "../../../services/reviews.service";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function ReviewByCourses() {
   const [reviews, setReviews] = useState([]);
   const [course, setCourse] = useState(null);
   const { courseId } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     ReviewsService.getReviewsByCourseId(courseId).then((res) => {
       setReviews(res.data);
+      setTotalItems(res.data.length);
     });
     CoursesService.getCoursesById(courseId).then((res) => {
       setCourse(res.data);
     });
   }, [courseId]);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedReviews = reviews.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -36,10 +50,10 @@ function ReviewByCourses() {
           </tr>
         </thead>
         <tbody>
-          {reviews.length > 0 &&
-            reviews.map((review, index) => (
+          {displayedReviews.length > 0 &&
+            displayedReviews.map((review, index) => (
               <tr key={index} className="text-center">
-                <td>{index + 1}</td>
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                 <td>{review.student.studentName}</td>
                 <td>{review.rating}</td>
                 <td>{review.comment}</td>
@@ -47,6 +61,12 @@ function ReviewByCourses() {
             ))}
         </tbody>
       </Table>
+      <PaginationComponent
+        currentPage={currentPage}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={handlePageChange}
+      />
       <Link to="/admin/reviews">
         <Button variant="primary" className="me-2">
           Danh sách đánh giá

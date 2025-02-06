@@ -4,16 +4,20 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function BlogList() {
   const [blogs, setBlogs] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     BlogsService.getAllBlogs().then((res) => {
       setBlogs(res.data);
+      setTotalItems(res.data.length);
     });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteBlogs = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -21,13 +25,22 @@ function BlogList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setBlogs(blogs.filter((blogs) => blogs.id !== id));
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
     }
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedCourses = blogs.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
@@ -50,10 +63,10 @@ function BlogList() {
             </tr>
           </thead>
           <tbody>
-            {blogs.length > 0 &&
-              blogs.map((blogs, index) => (
+            {displayedCourses.length > 0 &&
+              displayedCourses.map((blogs, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{blogs.student.studentName}</td>
                   <td>{blogs.title}</td>
                   <td>{blogs.content}</td>
@@ -72,6 +85,12 @@ function BlogList() {
               ))}
           </tbody>
         </Table>
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

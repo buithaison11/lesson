@@ -16,6 +16,14 @@ class SupportService {
   static async updateSupportStatus(id, status) {
     return await instance.patch(`/supports/${id}`, { status });
   }
+
+  static async getSupportsById(supportId) {
+    return await instance.get(`/supports/${supportId}?_expand=student`);
+  }
+
+  static async updateSupports(supportId, supports) {
+    return await instance.put(`/supports/${supportId}`, supports);
+  }
 }
 
 export default SupportService;

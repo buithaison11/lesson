@@ -4,16 +4,20 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function SupportList() {
   const [supports, setSupports] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     SupportService.getAllSupport().then((res) => {
       setSupports(res.data);
+      setTotalItems(res.data.length);
     });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteSupport = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -21,11 +25,33 @@ function SupportList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setSupports(supports.filter((supports) => supports.id !== id));
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
+    }
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedSupports = supports.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const getRowClass = (status) => {
+    switch (status) {
+      case "Đang xử lý":
+        return "table-warning";
+      case "Đã được xử lý":
+        return "table-success";
+      case "Xử lý thất bại":
+        return "table-danger";
+      default:
+        return "";
     }
   };
 
@@ -45,20 +71,28 @@ function SupportList() {
               <th>#</th>
               <th>Tên học viên</th>
               <th>Vấn đề</th>
-              <th>Trạng thái</th>
+              <th>Phản hồi</th>
               <th>Chức năng</th>
             </tr>
           </thead>
           <tbody>
-            {supports.length > 0 &&
-              supports.map((support, index) => (
-                <tr key={index} className="text-center">
-                  <td>{index + 1}</td>
+            {displayedSupports.length > 0 &&
+              displayedSupports.map((support, index) => (
+                <tr
+                  key={index}
+                  className={`text-center ${getRowClass(support.status)}`}
+                >
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{support.student.studentName}</td>
                   <td>{support.issue}</td>
                   <td>{support.status}</td>
                   <td>
                     <div className="d-flex justify-content-center align-items-center">
+                      <Link to={`/admin/supports/edit/${support.id}`}>
+                        <Button variant="outline-primary" className="no-border">
+                          <i className="bi bi-pencil-square"></i>
+                        </Button>
+                      </Link>
                       <Button
                         onClick={() => handleDeleteSupport(support.id)}
                         variant="outline-danger"
@@ -72,6 +106,13 @@ function SupportList() {
               ))}
           </tbody>
         </Table>
+
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

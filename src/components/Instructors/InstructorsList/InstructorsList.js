@@ -4,20 +4,24 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function InstructorsList() {
   const [instructor, setInstructor] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     InstructorService.getAllInstructors()
       .then((res) => {
         setInstructor(res.data);
+        setTotalItems(res.data.length);
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);
       });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteInstructor = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -25,13 +29,23 @@ function InstructorsList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setInstructor(
+            instructor.filter((instructor) => instructor.id !== id)
+          );
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
     }
   };
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedCourses = instructor.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   return (
     <>
       <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -60,10 +74,10 @@ function InstructorsList() {
             </tr>
           </thead>
           <tbody>
-            {instructor.length > 0 &&
-              instructor.map((item, index) => (
+            {displayedCourses.length > 0 &&
+              displayedCourses.map((item, index) => (
                 <tr key={index} className="text-center">
-                  <td className="text-center">{index + 1}</td>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{item.instructorName}</td>
                   <td>{item.bio}</td>
                   <td>{item.emailIns}</td>
@@ -90,6 +104,13 @@ function InstructorsList() {
               ))}
           </tbody>
         </Table>
+
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

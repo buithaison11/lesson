@@ -128,3 +128,15 @@
 .navbar .form-control {
   padding: 0.75rem 1rem;
 }
+
+.table-warning {
+  background-color: #fff3cd; /* Màu vàng nhạt */
+}
+
+.table-success {
+  background-color: #d4edda; /* Màu xanh nhạt */
+}
+
+.table-danger {
+  background-color: #f8d7da; /* Màu đỏ nhạt */
+}

@@ -4,16 +4,20 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function ReviewList() {
   const [reviews, setReviews] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     ReviewsService.getAllReviews().then((res) => {
       setReviews(res.data);
+      setTotalItems(res.data.length);
     });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteReviews = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -21,13 +25,22 @@ function ReviewList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setReviews(reviews.filter((reviews) => reviews.id !== id));
         })
         .catch((err) => {
           toast.error("Delete failed!");
         });
     }
   };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedCourses = reviews.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <>
@@ -51,10 +64,10 @@ function ReviewList() {
             </tr>
           </thead>
           <tbody>
-            {reviews.length > 0 &&
-              reviews.map((item, index) => (
+            {displayedCourses.length > 0 &&
+              displayedCourses.map((item, index) => (
                 <tr key={index} className="text-center">
-                  <td>{index + 1}</td>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{item.student.studentName}</td>
                   <td>{item.course.courseName}</td>
                   <td>{item.rating}</td>
@@ -72,6 +85,12 @@ function ReviewList() {
               ))}
           </tbody>
         </Table>
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );

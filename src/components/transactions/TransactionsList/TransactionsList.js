@@ -4,20 +4,24 @@ import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
+import PaginationComponent from "../../PaginationComponent/PaginationComponent";
 
 function TransactionsList() {
   const [transactions, setTransactions] = useState([]);
-  const [reload, setReload] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     TransactionService.getAllTransactions()
       .then((res) => {
         setTransactions(res.data);
+        setTotalItems(res.data.length);
       })
       .catch((error) => {
         console.error("Error fetching courses:", error);
       });
-  }, [reload]);
+  }, [currentPage]);
 
   const handleDeleteTransaction = (id) => {
     if (window.confirm("Are you sure you want to delete")) {
@@ -25,7 +29,9 @@ function TransactionsList() {
         .then((res) => {
           console.log("Xóa thành công!");
           toast.success("Delete successfully!");
-          setReload(!reload);
+          setTransactions(
+            transactions.filter((transactions) => transactions.id !== id)
+          );
         })
         .catch((err) => {
           toast.error("Delete failed!");
@@ -33,20 +39,29 @@ function TransactionsList() {
     }
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayedCourses = transactions.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <>
       <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 ">
-          <h1 className="h2">Danh sách học viên</h1>
-          {/* <div className="btn-toolbar mb-2 mb-md-0">
+          <h1 className="h2">Danh sách thanh toán</h1>
+          <div className="btn-toolbar mb-2 mb-md-0">
             <div className="btn-group me-2">
-              <Link to={"/admin/students/create"}>
+              <Link to={"/admin/transactions/create"}>
                 <Button variant="outline-primary">
-                  <i class="bi bi-plus-lg"></i> Thêm học viên
+                  <i class="bi bi-plus-lg"></i> Thêm thanh toán
                 </Button>
               </Link>
             </div>
-          </div> */}
+          </div>
         </div>
 
         <Table striped bordered hover size="sm">
@@ -62,10 +77,12 @@ function TransactionsList() {
             </tr>
           </thead>
           <tbody>
-            {transactions.length > 0 &&
-              transactions.map((transactions, index) => (
+            {displayedCourses.length > 0 &&
+              displayedCourses.map((transactions, index) => (
                 <tr key={index} className="text-center">
-                  <td>{index + 1}</td>
+                  <td className="text-center">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </td>
                   <td>{transactions.student.studentName}</td>
                   <td>{transactions.course.courseName}</td>
                   <td>{transactions.amount} VNĐ</td>
@@ -91,6 +108,12 @@ function TransactionsList() {
               ))}
           </tbody>
         </Table>
+        <PaginationComponent
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </>
   );
