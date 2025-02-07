@@ -31,11 +31,17 @@ function Login() {
       );
       if (user) {
         const dataUser = {
-          username: values.username,
+          username: user.username,
+          role: user.role,
         };
         dispatch(login(dataUser));
         localStorage.setItem("user", JSON.stringify(dataUser));
-        navigate("/admin");
+
+        if (user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/user");
+        }
       } else {
         toast.error("Username and password error");
       }

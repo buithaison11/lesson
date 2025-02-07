@@ -78,14 +78,13 @@ function SupportList() {
           <tbody>
             {displayedSupports.length > 0 &&
               displayedSupports.map((support, index) => (
-                <tr
-                  key={index}
-                  className={`text-center ${getRowClass(support.status)}`}
-                >
+                <tr key={index}>
                   <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                   <td>{support.student.studentName}</td>
                   <td>{support.issue}</td>
-                  <td>{support.status}</td>
+                  <td className={`text-center ${getRowClass(support.status)}`}>
+                    {support.status}
+                  </td>
                   <td>
                     <div className="d-flex justify-content-center align-items-center">
                       <Link to={`/admin/supports/edit/${support.id}`}>

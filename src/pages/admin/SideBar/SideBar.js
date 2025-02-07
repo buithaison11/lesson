@@ -258,12 +258,12 @@ function SideBar() {
               <div class="collapse" id="account-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                   <li>
-                    <a
-                      href="#"
+                    <Link
                       class="link-body-emphasis d-inline-flex text-decoration-none rounded"
+                      to={`/login/edit/${1}`}
                     >
                       Đổi mật khẩu
-                    </a>
+                    </Link>
                   </li>
                   <li>
                     <Link

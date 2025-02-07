@@ -28,6 +28,7 @@ import TransactionsList from "./components/transactions/TransactionsList/Transac
 import TransactionsAdd from "./components/transactions/TransactionsAdd/TransactionsAdd";
 import RevenueStatistics from "./components/transactions/RevenueStatistics/RevenueStatistics";
 import SupportEdit from "./components/support/supportEdit/SupportEdit";
+import ChangePassword from "./components/changePassword/ChangePassword";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/home/blogs/create" element={<BlogAdd />} />
         {/* Login */}
         <Route path="/login" element={<Login />} />
+        <Route path="/login/edit/:id" element={<ChangePassword />} />
         {/* Admin */}
         <Route path="/admin" element={<Master />}>
           <Route path="courses" element={<CoursesList />} />
